@@ -17,12 +17,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
+        run: npm install -g pnpm
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
@@ -40,10 +37,3 @@ jobs:
 
       - name: Build
         run: pnpm build:tauri
-        if: matrix.platform != 'ubuntu-22.04'
-
-      - name: Build (Linux)
-        run: pnpm build:tauri
-        if: matrix.platform == 'ubuntu-22.04'
-        env:
-          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
